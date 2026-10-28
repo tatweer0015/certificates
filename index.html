@@ -156,9 +156,11 @@ footer a{color:inherit}
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script>
 /* ===== Settings ===== */
 const SUPABASE_URL = "https://gqtnfgydwfxmqzsmggsa.supabase.co";
+const VERIFY_URL = "https://tatweer0015.github.io/certificates/?verify="; // printed in each certificate's QR code
 const SUPABASE_KEY = "sb_publishable_SpY8wtqL2aLkPeRhiSZDWg_Bt-ACKe3"; // public key: can only call the two lookup functions
 
 /* Each event's template and where its text goes (pixels on the 1448×1086 template). */
@@ -172,7 +174,7 @@ const TEMPLATES = {
     // "متمنين له دوام التوفيق والنجاح": for women, rebuild with "لها"
     wishLine: { y: 806, h: 44, baseline: 839, centerX: 724, size: 30, color: "#55708b", gap: 11,
                 right: [830, 916, 826], left: [529, 785, 525], clear: [500, 806, 450, 44] },
-    certNo: { centerX: 898, labelY: 940, codeY: 968 }
+    certNo: { centerX: 898, qrTop: 884, module: 3, codeY: 1004 }
   }
 };
 
@@ -258,13 +260,22 @@ async function drawCertificate(c){
     x.drawImage(lPiece, Math.round(x2 - (lInkR - lSrcL)), W.y);
   }
 
-  // certificate number, beside the stamp
+  // QR code + certificate number, beside the stamp
   const C = T.certNo;
-  x.textAlign = "center";
-  x.fillStyle = "#55708b"; x.font = `500 15px "Noto Kufi Arabic"`;
-  x.fillText("رقم الشهادة", C.centerX, C.labelY);
-  x.direction = "ltr"; x.fillStyle = "#124970"; x.font = `600 19px "Noto Kufi Arabic", sans-serif`;
-  x.fillText(c.cert_no, C.centerX, C.codeY);
+  let qrBottom = C.qrTop;
+  if (window.qrcode) {
+    const q = qrcode(0, "M"); q.addData(VERIFY_URL + c.cert_no); q.make();
+    const n = q.getModuleCount(), m = C.module, size = n * m;
+    const left = Math.round(C.centerX - size / 2);
+    x.fillStyle = "#fff"; x.fillRect(left - m * 2, C.qrTop - m * 2, size + m * 4, size + m * 4);
+    x.fillStyle = "#124970";
+    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++)
+      if (q.isDark(r, k)) x.fillRect(left + k * m, C.qrTop + r * m, m, m);
+    qrBottom = C.qrTop + size;
+  }
+  x.textAlign = "center"; x.direction = "ltr";
+  x.fillStyle = "#124970"; x.font = `600 15px "Noto Kufi Arabic", sans-serif`;
+  x.fillText(c.cert_no, C.centerX, Math.max(C.codeY, qrBottom + 20));
   x.direction = "rtl";
 }
 
