@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شهادات تطوير</title>
+<meta name="description" content="استعلم عن شهادة حضورك لقاءات الجمعية الأهلية لتنمية وتطوير العمل المؤسسي (تطوير) وحمّلها.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#124970; --navy-deep:#0d3654; --copper:#be8059; --paper:#fefefe;
+  --ink:#15212e; --slate:#55708b; --mist:#eef2f6; --line:#d5dee7;
+  --ok:#1f7a4d; --warn:#9a4a1f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:"Noto Kufi Arabic",system-ui,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--navy)}
+
+/* ---- the band: echoes the stepped pixel frame of the certificate ---- */
+.band{position:relative;background:var(--navy);color:#fff;overflow:hidden;padding:56px 16px 92px;text-align:center}
+.band .px{position:absolute;inset:0;pointer-events:none}
+.band .px i{position:absolute;width:var(--s,28px);height:var(--s,28px);background:var(--paper)}
+.band .px i.c{background:var(--copper)}
+.band .px i.t{background:linear-gradient(135deg,var(--copper) 50%,transparent 50%)}
+.band .logo{display:inline-block;background:var(--paper);padding:10px 16px;margin-bottom:22px}
+.band .logo img{display:block;height:46px}
+.band h1{margin:0;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;letter-spacing:0;line-height:1.35}
+.band p{margin:10px auto 0;max-width:30em;color:#d6e2ec;font-size:1rem}
+.edge{display:flex;justify-content:center;gap:0;margin-top:-28px;position:relative;z-index:1}
+.edge span{width:28px;height:28px;background:var(--paper)}
+
+main{max-width:560px;margin:0 auto;padding:26px 16px 40px}
+.tabs{display:flex;border-bottom:2px solid var(--line);margin-bottom:22px}
+.tabs button{flex:1;appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:10px 6px;font:inherit;font-weight:600;color:var(--slate);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--copper)}
+label{display:block;font-weight:600;margin-bottom:6px}
+.field{display:flex;gap:8px}
+input{flex:1;min-width:0;font:inherit;font-size:1.05rem;padding:12px 14px;border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:0;direction:ltr;text-align:left}
+input::placeholder{color:#97a8b8}
+input:focus{outline:none;border-color:var(--navy)}
+.btn{appearance:none;border:0;background:var(--navy);color:#fff;font:inherit;font-weight:600;padding:12px 20px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--navy-deep)}
+.btn.alt{background:var(--paper);color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)}
+.btn.alt:hover{background:var(--mist)}
+.btn:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+.hint{color:var(--slate);font-size:.9rem;margin:8px 0 0}
+.msg{margin-top:18px;padding:14px 16px;border-inline-start:4px solid var(--copper);background:var(--mist);font-size:.97rem}
+.msg.ok{border-color:var(--ok)}
+.msg strong{display:block;margin-bottom:2px}
+[hidden]{display:none!important}
+
+/* ---- results ---- */
+.pick{margin-top:22px}
+.pick h2{font-size:1.05rem;margin:0 0 8px}
+.pick button{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:right;appearance:none;background:#fff;border:2px solid var(--line);border-top-width:0;padding:12px 14px;font:inherit;color:var(--ink);cursor:pointer}
+.pick button:first-of-type{border-top-width:2px}
+.pick button:hover,.pick button[aria-pressed="true"]{background:var(--mist)}
+.pick small{color:var(--slate);white-space:nowrap}
+
+.result{max-width:980px;margin:0 auto;padding:0 16px 56px}
+.result h2{text-align:center;font-size:1.3rem;margin:4px 0 4px}
+.result .sub{text-align:center;color:var(--slate);margin:0 0 18px}
+.sheet{background:#fff;box-shadow:0 0 0 1px var(--line),0 18px 40px -24px rgba(18,73,112,.45)}
+.sheet canvas{display:block;width:100%;height:auto}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.verify-card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:8px 0 0}
+.verify-card dt{color:var(--slate)}
+.verify-card dd{margin:0;font-weight:600}
+
+footer{text-align:center;color:var(--slate);font-size:.88rem;padding:22px 16px 34px;border-top:1px solid var(--line)}
+footer a{color:inherit}
+
+@media (max-width:520px){
+  .field{flex-direction:column}
+  .band{padding-top:40px}
+  .band .px i{--s:18px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sheet{animation:rise .45s ease-out}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="px" aria-hidden="true">
+    <!-- stepped squares, like the certificate frame -->
+    <i style="top:0;right:0"></i><i class="c" style="top:28px;right:28px"></i><i style="top:56px;right:0"></i>
+    <i class="t" style="top:0;right:56px"></i><i style="top:84px;right:56px"></i>
+    <i style="top:0;left:0"></i><i class="c" style="top:28px;left:28px"></i><i style="top:56px;left:0"></i>
+    <i class="t" style="top:0;left:56px;transform:scaleX(-1)"></i><i style="top:84px;left:56px"></i>
+    <i style="bottom:28px;right:14%"></i><i class="c" style="bottom:56px;right:calc(14% + 28px)"></i>
+    <i style="bottom:28px;left:14%"></i><i class="c" style="bottom:56px;left:calc(14% + 28px)"></i>
+  </div>
+  <div class="logo"><img src="logo.png" alt="جمعية تطوير"></div>
+  <h1>شهادتك من تطوير</h1>
+  <p>اكتب البريد الإلكتروني الذي سجّلت به في اللقاء، وتظهر شهادتك باسمك جاهزة للتحميل.</p>
+</header>
+<div class="edge" aria-hidden="true"><span></span><span style="background:var(--navy)"></span><span></span><span style="background:var(--copper)"></span><span></span></div>
+
+<main>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-find" aria-selected="true" aria-controls="panel-find">عرض شهادتي</button>
+    <button role="tab" id="tab-verify" aria-selected="false" aria-controls="panel-verify">التحقق من شهادة</button>
+  </div>
+
+  <section id="panel-find" role="tabpanel" aria-labelledby="tab-find">
+    <form id="find-form" novalidate>
+      <label for="email">البريد الإلكتروني</label>
+      <div class="field">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required>
+        <button class="btn" type="submit" id="find-btn">عرض شهادتي</button>
+      </div>
+    </form>
+    <div id="find-msg" class="msg" hidden role="status"></div>
+    <div id="pick" class="pick" hidden>
+      <h2>لديك أكثر من شهادة، اختر اللقاء:</h2>
+      <div id="pick-list"></div>
+    </div>
+  </section>
+
+  <section id="panel-verify" role="tabpanel" aria-labelledby="tab-verify" hidden>
+    <form id="verify-form" novalidate>
+      <label for="code">رقم الشهادة</label>
+      <div class="field">
+        <input id="code" type="text" autocomplete="off" placeholder="TW-XXXXXXXX" required>
+        <button class="btn" type="submit" id="verify-btn">تحقّق</button>
+      </div>
+      <p class="hint">الرقم مطبوع أسفل الشهادة بجوار الختم.</p>
+    </form>
+    <div id="verify-msg" class="msg verify-card" hidden role="status"></div>
+  </section>
+</main>
+
+<section id="result" class="result" hidden aria-live="polite">
+  <h2 id="result-title"></h2>
+  <p class="sub" id="result-sub"></p>
+  <div class="sheet"><canvas id="cert" width="1448" height="1086" role="img" aria-label="الشهادة"></canvas></div>
+  <div class="actions">
+    <button class="btn" id="dl-pdf" type="button">تحميل الشهادة PDF</button>
+    <button class="btn alt" id="dl-img" type="button">تحميلها صورة</button>
+  </div>
+</section>
+
+<footer>
+  الجمعية الأهلية لتنمية وتطوير العمل المؤسسي (تطوير)<br>
+  لم تجد شهادتك؟ تواصل معنا: <a href="tel:0502150015" dir="ltr">0502150015</a> ·
+  <a href="mailto:info@tatweer.org.sa">info@tatweer.org.sa</a> ·
+  <a href="https://www.tatweer.org.sa/">الموقع الرسمي</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ===== Settings ===== */
+const SUPABASE_URL = "https://gqtnfgydwfxmqzsmggsa.supabase.co";
+const SUPABASE_KEY = "sb_publishable_SpY8wtqL2aLkPeRhiSZDWg_Bt-ACKe3"; // public key: can only call the two lookup functions
+
+/* Each event's template and where its text goes (pixels on the 1448×1086 template). */
+const TEMPLATES = {
+  "innovation-business-models": {
+    image: "templates/innovation-business-models.jpg",
+    w: 1448, h: 1086, bg: "#fefefe",
+    // the "المكرم/ة" line is replaced by: المكرم/المكرمة + name
+    nameLine: { clear: [560, 468, 330, 54], centerX: 724, baseline: 505, maxWidth: 1080,
+                titleSize: 28, nameSize: 32, gap: 14, titleColor: "#151515", nameColor: "#17406e" },
+    // "متمنين له دوام التوفيق والنجاح": for women, rebuild with "لها"
+    wishLine: { y: 806, h: 44, baseline: 839, centerX: 724, size: 30, color: "#55708b", gap: 11,
+                right: [830, 916, 826], left: [529, 785, 525], clear: [500, 806, 450, 44] },
+    certNo: { centerX: 898, labelY: 940, codeY: 968 }
+  }
+};
+
+/* ===== Helpers ===== */
+const $ = id => document.getElementById(id);
+const AR_MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const fmtDate = d => { const [y,m,day] = d.split("-").map(Number); return `${day} ${AR_MONTHS[m-1]} ${y}م`; };
+const isEmail = s => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+function show(el, html, ok){ el.innerHTML = html; el.classList.toggle("ok", !!ok); el.hidden = false; }
+
+async function rpc(fn, args){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+    method: "POST",
+    headers: { apikey: SUPABASE_KEY, "Content-Type": "application/json" },
+    body: JSON.stringify(args)
+  });
+  if (!r.ok) throw new Error("rpc " + r.status);
+  return r.json();
+}
+
+const imgCache = {};
+function loadImg(src){
+  return imgCache[src] ||= new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src;
+  });
+}
+async function fontsReady(){
+  try { await Promise.all([
+    document.fonts.load('500 30px "Noto Kufi Arabic"', "متمنين"),
+    document.fonts.load('600 30px "Noto Kufi Arabic"', "المكرم"),
+    document.fonts.load('700 30px "Noto Kufi Arabic"', "المكرم")
+  ]); } catch (e) { console.warn("font load", e); } // draw with the fallback font rather than fail
+}
+
+/* ===== Drawing the certificate ===== */
+async function drawCertificate(c){
+  const T = TEMPLATES[c.template];
+  if (!T) throw new Error("no template " + c.template);
+  const [img] = await Promise.all([loadImg(T.image), fontsReady()]);
+  const cv = $("cert"); cv.width = T.w; cv.height = T.h;
+  const x = cv.getContext("2d");
+  x.drawImage(img, 0, 0, T.w, T.h);
+  x.direction = "rtl"; x.textBaseline = "alphabetic"; x.textAlign = "right";
+  const female = c.gender === "f";
+
+  // name line
+  const N = T.nameLine;
+  x.fillStyle = T.bg; x.fillRect(...N.clear);
+  const title = female ? "المكرمة" : "المكرم";
+  let nameSize = N.nameSize, w1, w2;
+  for (;;) {
+    x.font = `700 ${N.titleSize}px "Noto Kufi Arabic"`; w1 = x.measureText(title).width;
+    x.font = `700 ${nameSize}px "Noto Kufi Arabic"`;   w2 = x.measureText(c.full_name).width;
+    if (w1 + N.gap + w2 <= N.maxWidth || nameSize <= 20) break;
+    nameSize--;
+  }
+  const right = N.centerX + (w1 + N.gap + w2) / 2;
+  x.font = `700 ${N.titleSize}px "Noto Kufi Arabic"`; x.fillStyle = N.titleColor;
+  x.fillText(title, right, N.baseline);
+  x.font = `700 ${nameSize}px "Noto Kufi Arabic"`; x.fillStyle = N.nameColor;
+  x.fillText(c.full_name, right - w1 - N.gap, N.baseline);
+
+  // wish line: keep the original artwork for men, rebuild around "لها" for women
+  if (female) {
+    const W = T.wishLine;
+    const [rInkL, rInkR, rSrcL] = W.right, [lInkL, lInkR, lSrcL] = W.left;
+    const rW = rInkR - rInkL + 1, lW = lInkR - lInkL + 1;
+    x.font = `500 ${W.size}px "Noto Kufi Arabic"`;
+    const wl = x.measureText("لها").width;
+    const total = rW + W.gap + wl + W.gap + lW;
+    const R = W.centerX + total / 2;
+    // copy both original pieces before clearing
+    const rPiece = document.createElement("canvas"), lPiece = document.createElement("canvas");
+    rPiece.width = rInkR - rSrcL + 4; rPiece.height = W.h;
+    lPiece.width = lInkR - lSrcL + 4; lPiece.height = W.h;
+    rPiece.getContext("2d").drawImage(img, rSrcL, W.y, rPiece.width, W.h, 0, 0, rPiece.width, W.h);
+    lPiece.getContext("2d").drawImage(img, lSrcL, W.y, lPiece.width, W.h, 0, 0, lPiece.width, W.h);
+    x.fillStyle = T.bg; x.fillRect(...W.clear);
+    x.drawImage(rPiece, Math.round(R - (rInkR - rSrcL)), W.y);
+    const xl = R - rW - W.gap;
+    x.fillStyle = W.color; x.fillText("لها", xl, W.baseline);
+    const x2 = xl - wl - W.gap;
+    x.drawImage(lPiece, Math.round(x2 - (lInkR - lSrcL)), W.y);
+  }
+
+  // certificate number, beside the stamp
+  const C = T.certNo;
+  x.textAlign = "center";
+  x.fillStyle = "#55708b"; x.font = `500 15px "Noto Kufi Arabic"`;
+  x.fillText("رقم الشهادة", C.centerX, C.labelY);
+  x.direction = "ltr"; x.fillStyle = "#124970"; x.font = `600 19px "Noto Kufi Arabic", sans-serif`;
+  x.fillText(c.cert_no, C.centerX, C.codeY);
+  x.direction = "rtl";
+}
+
+/* ===== Showing a result ===== */
+let current = null;
+async function present(c){
+  current = c;
+  await drawCertificate(c);
+  $("result-title").textContent = c.event_title;
+  $("result-sub").textContent = `${fmtDate(c.event_date)} — رقم الشهادة ${c.cert_no}`;
+  $("result").hidden = false;
+  $("result").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
+const fileName = (ext) => `شهادة ${current.event_title} - ${current.full_name}.${ext}`;
+$("dl-pdf").onclick = () => {
+  const cv = $("cert");
+  const pdf = new jspdf.jsPDF({ orientation: "landscape", unit: "pt", format: [cv.width, cv.height], compress: true });
+  pdf.addImage(cv.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, cv.width, cv.height);
+  pdf.setProperties({ title: fileName("pdf").replace(/\.pdf$/, ""), author: "جمعية تطوير" });
+  pdf.save(fileName("pdf"));
+};
+$("dl-img").onclick = () => {
+  const a = document.createElement("a");
+  a.href = $("cert").toDataURL("image/png"); a.download = fileName("png"); a.click();
+};
+
+/* ===== Lookup by email ===== */
+$("find-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = $("email").value.trim();
+  const msg = $("find-msg"), btn = $("find-btn");
+  $("pick").hidden = true; $("result").hidden = true;
+  if (!isEmail(email)) { show(msg, "<strong>تأكد من البريد الإلكتروني</strong>اكتبه كاملاً بهذا الشكل: name@example.com"); $("email").focus(); return; }
+  btn.disabled = true; btn.textContent = "جارٍ البحث…"; msg.hidden = true;
+  try {
+    const rows = await rpc("lookup_certificates", { p_email: email });
+    if (!rows.length) {
+      show(msg, `<strong>لا توجد شهادة مسجلة بهذا البريد</strong>تأكد أنه البريد نفسه الذي سجلت به في اللقاء. وإن استمرت المشكلة تواصل معنا على <a href="tel:0502150015" dir="ltr">0502150015</a> أو <a href="mailto:info@tatweer.org.sa">info@tatweer.org.sa</a>.`);
+    } else if (rows.length === 1) {
+      await present(rows[0]);
+    } else {
+      const list = $("pick-list"); list.innerHTML = "";
+      rows.forEach(r => {
+        const b = document.createElement("button"); b.type = "button";
+        b.innerHTML = `<span></span><small>${fmtDate(r.event_date)}</small>`;
+        b.firstChild.textContent = r.event_title;
+        b.onclick = () => { list.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); present(r); };
+        list.appendChild(b);
+      });
+      $("pick").hidden = false;
+    }
+  } catch (err) {
+    console.error(err);
+    show(msg, "<strong>تعذّر الاتصال الآن</strong>تحقق من اتصالك بالإنترنت وأعد المحاولة بعد قليل.");
+  } finally { btn.disabled = false; btn.textContent = "عرض شهادتي"; }
+});
+
+/* ===== Verify by certificate number ===== */
+async function verify(code){
+  const msg = $("verify-msg"), btn = $("verify-btn");
+  code = code.trim().toUpperCase();
+  if (!code) { show(msg, "<strong>اكتب رقم الشهادة</strong>مثل TW-1A2B3C4D"); return; }
+  btn.disabled = true; msg.hidden = true;
+  try {
+    const rows = await rpc("verify_certificate", { p_cert_no: code });
+    if (!rows.length) {
+      show(msg, "<strong>لم نجد شهادة بهذا الرقم</strong>راجع الرقم حرفاً حرفاً كما هو مطبوع أسفل الشهادة.");
+    } else {
+      const r = rows[0], esc = s => s.replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+      show(msg, `<strong>✓ شهادة صحيحة صادرة من جمعية تطوير</strong>
+        <dl><dt>الاسم</dt><dd>${esc(r.full_name)}</dd><dt>اللقاء</dt><dd>${esc(r.event_title)}</dd><dt>التاريخ</dt><dd>${fmtDate(r.event_date)}</dd><dt>الرقم</dt><dd dir="ltr" style="text-align:right">${esc(code)}</dd></dl>`, true);
+    }
+  } catch (err) {
+    console.error(err);
+    show(msg, "<strong>تعذّر الاتصال الآن</strong>أعد المحاولة بعد قليل.");
+  } finally { btn.disabled = false; }
+}
+$("verify-form").addEventListener("submit", e => { e.preventDefault(); verify($("code").value); });
+
+/* ===== Tabs ===== */
+function selectTab(which){
+  const find = which === "find";
+  $("tab-find").setAttribute("aria-selected", find); $("tab-verify").setAttribute("aria-selected", !find);
+  $("panel-find").hidden = !find; $("panel-verify").hidden = find;
+  if (!find) $("result").hidden = true;
+}
+$("tab-find").onclick = () => selectTab("find");
+$("tab-verify").onclick = () => selectTab("verify");
+
+/* ?verify=TW-XXXX opens the check directly (for a future QR code) */
+const qv = new URLSearchParams(location.search).get("verify");
+if (qv) { selectTab("verify"); $("code").value = qv; verify(qv); }
+</script>
+</body>
+</html>
