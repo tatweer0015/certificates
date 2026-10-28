@@ -1,0 +1,29 @@
+# Keeps the free Supabase project awake (it pauses after ~7 quiet days)
+# and keeps this repository active so GitHub does not switch off the schedule.
+name: keep-alive
+on:
+  schedule:
+    - cron: "17 6 */2 * *"   # every two days, 09:17 Riyadh time
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the certificates database
+        run: |
+          curl -fsS -X POST "https://gqtnfgydwfxmqzsmggsa.supabase.co/rest/v1/rpc/verify_certificate" \
+            -H "apikey: sb_publishable_SpY8wtqL2aLkPeRhiSZDWg_Bt-ACKe3" \
+            -H "Content-Type: application/json" \
+            -d '{"p_cert_no":"KEEP-ALIVE"}'
+      - uses: actions/checkout@v4
+      - name: Monthly heartbeat commit
+        run: |
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 30*24*3600 )) ]; then
+            date -u +%FT%TZ > .heartbeat
+            git config user.name "keep-alive bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add .heartbeat && git commit -m "heartbeat" && git push
+          fi
