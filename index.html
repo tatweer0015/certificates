@@ -297,11 +297,17 @@ $("dl-pdf").onclick = () => {
   pdf.addImage(cv.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, cv.width, cv.height);
   pdf.setProperties({ title: fileName("pdf").replace(/\.pdf$/, ""), author: "جمعية تطوير" });
   pdf.save(fileName("pdf"));
+  logDownload("pdf");
 };
 $("dl-img").onclick = () => {
   const a = document.createElement("a");
   a.href = $("cert").toDataURL("image/png"); a.download = fileName("png"); a.click();
+  logDownload("png");
 };
+// records the download for the association's report; never blocks the download itself
+function logDownload(kind){
+  if (current) rpc("log_download", { p_cert_no: current.cert_no, p_kind: kind }).catch(() => {});
+}
 
 /* ===== Lookup by email ===== */
 $("find-form").addEventListener("submit", async e => {
