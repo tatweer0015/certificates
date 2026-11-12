@@ -186,6 +186,17 @@ const TEMPLATES = {
     wishLine: { y: 806, h: 44, baseline: 839, centerX: 724, size: 30, color: "#55708b", gap: 11,
                 right: [830, 916, 826], left: [529, 785, 525], clear: [500, 806, 450, 44] },
     certNo: { centerX: 898, qrTop: 884, module: 3, codeY: 1004 }
+  },
+  "partnerships": {
+    image: "templates/partnerships.jpg",
+    w: 1448, h: 1086, bg: "#fefefe",
+    // the "المكرم/ة" line is replaced by: المكرم/المكرمة + name
+    nameLine: { clear: [560, 468, 330, 54], centerX: 724, baseline: 505, maxWidth: 1080,
+                titleSize: 28, nameSize: 32, gap: 14, titleColor: "#151515", nameColor: "#17406e" },
+    // "متمنين له دوام التوفيق والنجاح": for women, rebuild with "لها"
+    wishLine: { y: 806, h: 44, baseline: 839, centerX: 724, size: 30, color: "#55708b", gap: 11,
+                right: [830, 916, 826], left: [529, 785, 525], clear: [500, 806, 450, 44] },
+    certNo: { centerX: 898, qrTop: 884, module: 3, codeY: 1004 }
   }
 };
 
